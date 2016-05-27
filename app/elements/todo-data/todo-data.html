@@ -1,0 +1,56 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
+<link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
+
+
+<dom-module id="todo-data">
+    <template>
+        
+        
+        <firebase-app 
+                      database-url="https://todo200d7.firebaseio.com"
+                      auth-domain="todo-200d7.firebaseapp.com"
+                      api-key="AIzaSyARtcNTBMVVztO1oEUfvLdsWB4l6joEe9o">
+        </firebase-app>
+        
+        
+        <fire-document  path="/"
+                        data="{{firebasetodos}}">
+        </fire-document>
+        
+        
+        <!--
+        <firebase-auth id="auth" 
+                       user="{{user}}"
+                       provider="google"
+                       on-error="handleError">
+        </firebase-auth>
+                      
+
+        <iron-localstorage name="polymer-todo" 
+                           on-iron-localstorage-load="_backupLoaded" 
+                           value="{{backupTodos}}">
+        </iron-localstorage>
+
+        -->
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'todo-data',
+            properties: {
+                todos: {
+                    type: Array,
+                    notify: true,
+                    observer: 'todoUpdated'
+                },
+            },
+            
+            todoUpdated: function(){
+                console.log(this.todos);
+            }
+            
+        });
+    </script>
+</dom-module>

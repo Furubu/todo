@@ -1,0 +1,83 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../todo-icons/todo-icons.html">
+
+
+<dom-module id="todo-item">
+    <style>
+        :host {
+            display: block;
+            box-sizing: border-box;
+            min-height: 50px;
+        }
+        
+        .row {
+            position: relative;
+            padding: 16px 16px 16px 22px;
+        }
+        
+        paper-checkbox {
+            /* Checkbox has 8px of extra space on top so have to tweak it to center */
+            margin-top: -4px;
+            margin-right: 20px;
+        }
+        
+        paper-checkbox[checked] + .label {
+            color: #9E9E9E;
+            text-decoration: line-through;
+        }
+        
+        paper-material {
+            margin: 10px 10px 10px;
+        }
+        
+
+        .btn-cancel {
+            opacity: 1;
+            font-size: 15px;
+        }
+
+    </style>
+    
+    <template>
+        <paper-material elevation="1"
+                        class="row layout horizontal center">
+            <paper-checkbox checked="{{todo.isComplete}}"></paper-checkbox>
+            <paper-input value="{{todo.label}}"
+                         class="flex"
+                         no-label-float
+                         on-keypress="_checkConfirmation"></paper-input>
+            <paper-icon-button icon="todo-icon:delete" 
+                               on-tap="_onDelete"
+                               class="btn-cancel"
+                               aria-label="Delete Todo"
+                               tabindex="0">
+            </paper-icon-button>
+        </paper-material>
+    </template>
+    
+    <script>
+        (function () {
+            'use strict';
+
+            Polymer({
+                is: 'todo-item',
+                properties: {
+                    todo: Object
+                },
+                _onDelete: function () {
+                    this.fire('delete-todo', {todo: this.todo});
+                },
+                _checkConfirmation: function(e) {
+                    if (e.keyCode == 13) {
+                        e.preventDefault();
+                        e.target.blur();
+                    }
+                }
+            });
+        })();
+    </script>
+</dom-module>
